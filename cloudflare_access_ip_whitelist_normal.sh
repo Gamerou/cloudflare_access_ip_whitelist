@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#https://github.com/Gamerou/cloudflare_access_ip_whitelist
-#Script provided by Gamerou
+# https://github.com/Gamerou/cloudflare_access_ip_whitelist
+# by Gamerou
 
 # Cloudflare API-Token
 api_token="YOUR_CLOUDFLARE_API_TOKEN"
@@ -15,8 +15,8 @@ policy_uuid="YOUR_POLICY_UUID"
 api_url="https://api.cloudflare.com/client/v4/accounts/${account_identifier}/access/apps/${app_uuid}/policies/${policy_uuid}"
 
 # Get current IPv4 and IPv6 addresses
-current_ipv4=$(curl -s https://api64.ipify.org?format=json | jq -r '.ip')
-current_ipv6=$(curl -s https://ipv6.icanhazip.com)
+current_ipv4=$(curl -s https://api.ipify.org)
+current_ipv6=$(curl -s https://api6.ipify.org)
 
 echo "Current IPv4 Address: ${current_ipv4}"
 echo "Current IPv6 Address: ${current_ipv6}"
