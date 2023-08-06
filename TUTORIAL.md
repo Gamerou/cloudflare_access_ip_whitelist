@@ -49,7 +49,7 @@ To automate the IP whitelist update process, you can use the `cron` scheduler on
    ```
 3. Add a new line to the crontab file to specify the interval and the script's path. For example, to run the script every minute, add the following line:
    ```
-   */1 * * * * /path/to/update_ip_whitelist.sh
+   */1 * * * * /bin/bash /path/to/update_ip_whitelist.sh
    ```
    Make sure to replace `/path/to/update_ip_whitelist.sh` with the actual path to your script.
 
