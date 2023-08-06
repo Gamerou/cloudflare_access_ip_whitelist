@@ -53,7 +53,7 @@ for app_uuid in "${!app_policies[@]}"; do
     "include": [
       {
         "ip": {
-          "ip": "'"${current_ipv4}/32"'"
+          "ip": "'"${current_ipv4}"'"
         }
       },
       {
