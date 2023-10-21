@@ -8,7 +8,7 @@ The goal of this project is to create an automated solution for updating IP whit
 
 2. **Home Assistant Integration (Optional):** For users of Home Assistant, the script can seamlessly retrieve the current IPv4 and IPv6 addresses from Home Assistant sensors. This information is then utilized to update the relevant Cloudflare Access policy.
 
-3. **Discord Integration:** Real-time communication is established through Discord, enabling the script to send notifications to a designated channel. These notifications promptly alert administrators about the success or failure of policy updates.
+3. **Discord Integration (Optional) :** Real-time communication is established through Discord, enabling the script to send notifications to a designated channel. These notifications promptly alert administrators about the success or failure of policy updates.
 
 4. **Alternative API Option:** In scenarios where Home Assistant is not employed, the script accommodates the use of alternative APIs to obtain server IP addresses. This provides users with flexibility, ensuring that IP whitelisting updates can still be achieved, irrespective of the platform.
 
