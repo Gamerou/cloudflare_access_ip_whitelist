@@ -27,3 +27,4 @@ For users who do not utilize Home Assistant, the script offers an adaptable appr
 To get started, download the latest release from the "Releases" tab in the project repository. Follow the step-by-step instructions in the tutorial to configure and utilize the Cloudflare Access Policy Updater effectively. Enhance your Cloudflare security by ensuring that your Access Policies are always up to date with the latest IP addresses from your network.
 
 **Note:** It is highly recommended to thoroughly review and test the script before implementing it in a production environment. This precaution ensures the script's accuracy and reliability when managing IP whitelisting in Cloudflare Access policies.
+Feel free to explore and modify the script further to suit your specific needs. Don't forget to acknowledge the original creator, Gamerou, if you decide to use or adapt this script for your own purposes.
