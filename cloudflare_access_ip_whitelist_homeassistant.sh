@@ -45,7 +45,7 @@ current_ipv4=$(echo $response_ipv4 | jq -r '.state')
 log_debug "Current IPv4: $current_ipv4"
 
 # Get current IPv6 address from HomeAssistant
-log_debug "Fetching current IPv4 address from HomeAssistant..."
+log_debug "Fetching current IPv6 address from HomeAssistant..."
 response_ipv6=$(curl -s -X GET "$HA_BASE_URL/api/states/$HA_SENSOR_IPV6" -H "Authorization: Bearer $HA_TOKEN")
 log_debug "Response: $response_ipv4"
 
