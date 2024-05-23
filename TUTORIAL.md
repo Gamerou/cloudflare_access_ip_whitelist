@@ -1,9 +1,10 @@
-**Tutorial: Updating Cloudflare Access IP Whitelist Using Bash Script**
+# Tutorial: Updating Cloudflare Access IP Whitelist Using Bash Script
 
 In this tutorial, we'll walk you through the process of updating the IP whitelist for Cloudflare Access using a Bash script. This script will automatically fetch your current IPv4 and IPv6 addresses and update the IP whitelist in Cloudflare Access.
 
 **Prerequisites:**
 - A Cloudflare account with Cloudflare Access enabled.
+(- Access to HomeAssistant API.)
 - A working installation of `jq`, a command-line JSON processor. You can install `jq` using your system's package manager.
 
 **Step 1: Obtain Your Cloudflare API Token**
