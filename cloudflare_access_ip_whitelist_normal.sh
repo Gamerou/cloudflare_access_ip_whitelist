@@ -3,14 +3,16 @@
 # https://github.com/Gamerou/cloudflare_access_ip_whitelist
 # Gamerou
 
-# Cloudflare API-Token
-api_token="YOUR_CLOUDFLARE_API_TOKEN"
+# Cloudflare API Details
+CF_API_KEY="YOUR_CLOUDFLARE_API_KEY"
+CF_API_EMAIL="YOUR_CLOUDFLARE_EMAIL"
+CF_ZONE_ID="YOUR_CLOUDFLARE_ZONE_ID"
 
 # Discord Webhook URL
 discord_webhook_url="YOUR_DISCORD_WEBHOOK_URL"
 
-# Policy details
-account_identifier="YOUR_CLOUDFLARE_ACCOUNT_IDENTIFIER"
+# Debug mode
+DEBUG=false
 
 # Policy details for each application
 declare -A app_policies
@@ -20,20 +22,31 @@ app_policies=(
   # Add more application policies as needed
 )
 
-# Function to get current IPv4 and IPv6 addresses
-get_current_ip_addresses() {
-  current_ipv4=$(curl -s https://api64.ipify.org?format=text)
-  current_ipv6=$(curl -s https://api64.ipify.org?format=text)
-}
+# Get current IPv4 address from ipify.org
+log_debug "Fetching current IPv4 address from ipify.org..."
+response_ipv4=$(curl -s curl -s https://api.ipify.org?format=json)
+log_debug "Response: $response_ipv4"
+
+# Extract the current IPv4 address
+current_ipv4=$(echo $response_ipv4 | jq -r '.ip')
+log_debug "Current IPv4: $current_ipv4"
+
+# Get current IPv6 address from ipify.org
+log_debug "Fetching current IPv4 address from ipify.org..."
+response_ipv6=$(curl -s curl -s https://api6.ipify.org?format=json)
+log_debug "Response: $response_ipv6"
+
+# Extract the current IPv4 address
+current_ipv6=$(echo $response_ipv6 | jq -r '.ip')
+log_debug "Current IPv4: $current_ipv4"
 
 # Check if IP addresses have changed
-get_current_ip_addresses
-if [ -f "ip_addresses.txt" ]; then
-  previous_ips=$(cat ip_addresses.txt)
-  current_ips="${current_ipv4}:${current_ipv6}"
+if [ -f "ip_addresses_ddns.txt" ]; then
+  previous_ip=$(cat ip_addresses_ddns.txt)
+  log_debug "Previous IPv4: $previous_ip"
 
-  if [ "$previous_ips" == "$current_ips" ]; then
-    echo "IP addresses have not changed. Skipping policy update."
+  if [ "$previous_ip" == "$current_ipv4" ] && [ "$DEBUG" == "false" ]; then
+    echo "IPv4 address has not changed. Skipping policy update."
     exit
   fi
 fi
