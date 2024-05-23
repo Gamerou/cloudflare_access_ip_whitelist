@@ -3,14 +3,22 @@
 # https://github.com/Gamerou/cloudflare_access_ip_whitelist
 # by Gamerou
 
-# Cloudflare API-Token
-api_token="YOUR_CLOUDFLARE_API_TOKEN"
+# Cloudflare API Details
+CF_API_KEY="YOUR_CLOUDFLARE_API_KEY"
+CF_API_EMAIL="YOUR_CLOUDFLARE_EMAIL"
+CF_ZONE_ID="YOUR_CLOUDFLARE_ZONE_ID"
+
+# HomeAssistant API Details
+HA_BASE_URL="YOUR_HOMEASSISTANT_URL"
+HA_TOKEN="YOUR_HOMEASSISTANT_TOKEN"
+HA_SENSOR_IPV4="YOUR_HOMEASSISTANT_SENSOR"
+HA_SENSOR_IPV6="YOUR_HOMEASSISTANT_SENSOR"
 
 # Discord Webhook URL
 discord_webhook_url="YOUR_DISCORD_WEBHOOK_URL"
 
-# Policy details
-account_identifier="YOUR_CLOUDFLARE_ACCOUNT_IDENTIFIER"
+# Debug mode
+DEBUG=false
 
 # Policy details for each application
 declare -A app_policies
@@ -20,19 +28,37 @@ app_policies=(
   # Add more application policies as needed
 )
 
-# Get IPv4 and IPv6 addresses from your source
-current_ipv4=$(curl -s -X GET "http://your-ha.local/api/states/sensor.ipv4" | jq -r '.state')
-current_ipv6=$(curl -s -X GET "http://your-ha.local/api/states/sensor.ipv6" | jq -r '.state')
+# Function to log debug messages
+log_debug() {
+    if [ "$DEBUG" = true ]; then
+        echo "DEBUG: $1"
+    fi
+}
 
-echo "Current IPv4 Address: ${current_ipv4}"
-echo "Current IPv6 Address: ${current_ipv6}"
+# Get current IPv4 address from HomeAssistant
+log_debug "Fetching current IPv4 address from HomeAssistant..."
+response_ipv4=$(curl -s -X GET "$HA_BASE_URL/api/states/$HA_SENSOR_IPV4" -H "Authorization: Bearer $HA_TOKEN")
+log_debug "Response: $response_ipv4"
+
+# Extract the current IPv4 address
+current_ipv4=$(echo $response_ipv4 | jq -r '.state')
+log_debug "Current IPv4: $current_ipv4"
+
+# Get current IPv6 address from HomeAssistant
+log_debug "Fetching current IPv4 address from HomeAssistant..."
+response_ipv6=$(curl -s -X GET "$HA_BASE_URL/api/states/$HA_SENSOR_IPV6" -H "Authorization: Bearer $HA_TOKEN")
+log_debug "Response: $response_ipv4"
+
+# Extract the current IPv6 address
+current_ipv6=$(echo $response_ipv6 | jq -r '.state')
+log_debug "Current IPv6: $current_ipv6"
 
 # Check if IP addresses have changed
 if [ -f "ip_addresses.txt" ]; then
   previous_ips=$(cat ip_addresses.txt)
   current_ips="${current_ipv4}:${current_ipv6}"
 
-  if [ "$previous_ips" == "$current_ips" ]; then
+  if [ "$previous_ips" == "$current_ips" ] && [ "$DEBUG" == "false" ]; then
     echo "IP addresses have not changed. Skipping policy update."
     exit
   fi
@@ -66,7 +92,7 @@ for app_uuid in "${!app_policies[@]}"; do
   }'
 
   # Send the PUT request to update the policy
-  response=$(curl -s -X PUT -H "Content-Type: application/json" -H "X-Auth-Email: YOUR_CLOUDFLARE_EMAIL" -H "X-Auth-Key: ${api_token}" --data "${policy_data}" "${api_url}")
+  response=$(curl -s -X PUT -H "Content-Type: application/json" -H "X-Auth-Email: $CF_API_EMAIL" -H "X-Auth-Key: $CF_API_KEY" --data "${policy_data}" "${api_url}")
 
   # Check if policy update was successful
   if [ "$(echo "${response}" | jq -r '.success')" = "true" ]; then
