@@ -14,7 +14,7 @@ The goal of this project is to create an automated solution for updating IP whit
 
 **Usage Instructions:**
 
-1. Obtain a Cloudflare API token and configure a Discord webhook.
+1. Obtain a Cloudflare API token (requires "Access: Apps and Policies (Edit)" Permissions or use global key (not recommended)).
 2. Personalize the script by replacing placeholders with actual credentials and values.
 3. Execute the script, which will autonomously update Cloudflare Access policies based on the server's IP addresses.
 4. Stay informed about policy updates through real-time Discord notifications.
