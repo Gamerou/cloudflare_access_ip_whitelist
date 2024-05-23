@@ -93,6 +93,7 @@ for app_uuid in "${!app_policies[@]}"; do
 
   # Send the PUT request to update the policy
   response=$(curl -s -X PUT -H "Content-Type: application/json" -H "X-Auth-Email: $CF_API_EMAIL" -H "X-Auth-Key: $CF_API_KEY" --data "${policy_data}" "${api_url}")
+  log_debug "Response: $response"
 
   # Check if policy update was successful
   if [ "$(echo "${response}" | jq -r '.success')" = "true" ]; then
