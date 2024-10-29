@@ -22,7 +22,7 @@ app_policies=(
 
 # Function to get current IPv4 and IPv6 addresses
 get_current_ip_addresses() {
-  current_ipv4=$(curl -s https://api64.ipify.org?format=text)
+  current_ipv4=$(curl -s https://api.ipify.org?format=text)
   current_ipv6=$(curl -s https://api64.ipify.org?format=text)
 }
 
